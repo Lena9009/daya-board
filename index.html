@@ -1,0 +1,272 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="GS Positioning"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#f6f7fb"><link rel="apple-touch-icon" sizes="180x180" href="icon180.png"><link rel="icon" type="image/png" href="icon32.png"><link rel="manifest" href="manifest.webmanifest"><title>GS Positioning</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1d2433;--mut:#8a93a6;--line:#eceef4;--pri:#3b6cf6;--pri2:#e9effe;--h:#3b6cf6;--a:#f08a24;--ok:#1aa774;--warn:#e5a100;--bad:#e0533d;--sub:#5a6378}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,"PingFang SC","Helvetica Neue",sans-serif}
+button{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:rgba(246,247,251,.94);backdrop-filter:blur(12px);padding:calc(env(safe-area-inset-top) + 8px) 14px 6px}
+.top{display:flex;align-items:center;gap:10px}.top h1{font-size:17px;margin:0;flex:1}.ib{border:0;background:var(--card);border-radius:12px;padding:8px 12px;font-size:14px;color:var(--pri);box-shadow:0 1px 3px #0000000d;cursor:pointer}
+.lights{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.lights .lg{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+.lights .lg i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 5px var(--ok);flex:none}
+.lights .lg.w i{background:var(--warn);box-shadow:0 0 5px var(--warn)}
+.lights .lg.b i{background:var(--bad);box-shadow:0 0 5px var(--bad)}
+.lights .lg b{font-weight:600;color:var(--ink)}
+.lights .lg em{font-style:normal;color:var(--sub);margin-left:2px}
+.seg{display:flex;background:#e8eaf1;border-radius:11px;padding:3px;margin-top:8px}.seg button{flex:1;border:0;background:transparent;text-align:center;padding:7px 0;border-radius:9px;font-weight:500;font-size:12.5px;color:#5a6378;cursor:pointer}.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0000001a}
+.crumbs{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;color:var(--mut)}.crumbs button{border:0;background:transparent;color:var(--pri);font-size:13px;padding:0;cursor:pointer}
+main{padding:4px 14px calc(env(safe-area-inset-bottom) + 24px)}
+.blk{font-size:12.5px;font-weight:600;color:var(--sub);margin:10px 2px 4px}
+.lgc{background:var(--card);border-radius:14px;padding:13px 14px;margin:7px 0;box-shadow:0 1px 4px #1d24330a;display:flex;align-items:center;gap:10px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.lgc .n{margin-left:auto;color:var(--mut);font-size:13px}.lgc .go{color:var(--mut);font-size:18px}
+.mc{background:var(--card);border-radius:16px;padding:11px 13px;margin:8px 0;box-shadow:0 1px 4px #1d24330a;cursor:pointer;-webkit-user-select:none;user-select:none}
+.mc .meta{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mut)}.tm{display:flex;align-items:center;margin:5px 0 7px;font-weight:600;font-size:15.5px;gap:4px}.tm span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tm .vs{flex:none;color:var(--mut);font-weight:400;font-size:12px;margin:0 4px}.tm .r{text-align:right}
+.gv{font-size:11px;color:var(--pri);background:var(--pri2);border-radius:6px;padding:1px 6px;margin-left:4px;font-weight:500}
+.bar{display:flex;height:6px;border-radius:4px;overflow:hidden;background:var(--line);margin:3px 0}.bar i{display:block}.lab{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);gap:8px}
+.nod{font-size:12px;color:var(--warn);background:#fff8e6;border-radius:8px;padding:4px 8px;display:inline-block;margin-top:4px}
+#det{position:fixed;inset:0;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform .22s;z-index:20;pointer-events:none;visibility:hidden}
+#det.on{transform:none;pointer-events:auto;visibility:visible}
+.mhead{position:sticky;top:0;z-index:3;background:rgba(246,247,251,.97);backdrop-filter:blur(12px);padding:calc(env(safe-area-inset-top) + 6px) 0 0}
+.dh{padding:0 14px 4px}
+.hero{background:linear-gradient(135deg,#eef3ff,#fff);border-radius:14px;padding:8px 12px;margin:2px 14px 6px;text-align:center}.hero .t{display:flex;align-items:center;font-size:16px;font-weight:700;gap:4px}.hero .t span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hero small{color:var(--mut);font-size:11.5px}
+.mtabs{display:flex;gap:2px;background:#e8eaf1;border-radius:11px;padding:3px;margin:0 14px 6px}
+.mtabs button{flex:1;border:0;background:transparent;text-align:center;padding:8px 2px;border-radius:9px;font-weight:600;font-size:12.5px;color:#5a6378;cursor:pointer;-webkit-user-select:none;user-select:none}
+.mtabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px #0000001a}
+.pane{padding:0 0 calc(env(safe-area-inset-bottom) + 28px)}
+details{background:var(--card);border-radius:14px;margin:8px 14px;box-shadow:0 1px 4px #1d24330a;overflow:hidden}summary{list-style:none;padding:12px 13px;font-weight:600;display:flex;align-items:center;cursor:pointer}summary::-webkit-details-marker{display:none}summary:after{content:"›";margin-left:auto;color:var(--mut);transition:.2s;font-size:18px}details[open] summary:after{transform:rotate(90deg)}summary em{font-style:normal;font-size:12px;color:var(--mut);font-weight:400;margin-left:8px}
+.bd{padding:0 12px 12px;font-size:14px}.row{display:grid;grid-template-columns:5.5em 1fr 3em;gap:8px;align-items:center;margin:7px 0}.row .n{font-size:13px}.row .v{text-align:right;font-variant-numeric:tabular-nums;font-size:13px}
+.two{display:flex;gap:4px;flex-direction:column}.two .bar{height:8px;margin:0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:13px;align-items:start}.kv b{color:var(--mut);font-weight:400;white-space:nowrap}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 2px;padding-bottom:2px}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}th{color:var(--mut);font-weight:400;text-align:center;padding:4px 3px;white-space:nowrap}td{text-align:center;padding:5px 3px;border-top:1px solid var(--line);white-space:nowrap}td.l,th.l{text-align:left;white-space:normal;max-width:9em}
+.W,.D,.L{display:inline-block;width:20px;height:20px;border-radius:6px;color:#fff;font-size:11px;line-height:20px;text-align:center;margin:1px}.W{background:var(--ok)}.D{background:#a3abbd}.L{background:var(--bad)}
+.sub{font-size:13px;font-weight:600;margin:10px 0 4px}.mut{color:var(--mut);font-size:12px}.miss{color:var(--mut);font-size:13px;background:#f3f4f8;border-radius:10px;padding:10px;text-align:center}
+.chips{display:flex;flex-direction:column;gap:8px}.chipb{background:#f7f8fc;border:1px solid var(--line);border-radius:12px;padding:8px 10px}.chipb .chip{display:inline-block;font-size:11px;font-weight:700;color:var(--pri);background:var(--pri2);border-radius:999px;padding:2px 8px;margin-bottom:4px}.chipb .chipv{font-size:13.5px;line-height:1.55;color:var(--ink);word-break:break-word}
+.txt p{margin:0 0 8px;font-size:13.5px;line-height:1.55;word-break:break-word}.txt p:last-child{margin-bottom:0}
+.lock{max-width:340px;margin:18vh auto 0;text-align:center;padding:0 24px}.lock input{width:100%;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin:14px 0 10px;background:#fff}.lock button{width:100%;padding:12px;border:0;border-radius:12px;background:var(--pri);color:#fff;font-size:16px;cursor:pointer}
+.foot{font-size:11px;color:var(--mut);text-align:center;margin:16px 0}
+.zjwrap{margin:8px 14px}#zjframe{width:100%;border:0;min-height:60vh;background:transparent;border-radius:14px;display:block}
+</style></head><body>
+<div id="app"></div><div id="det" aria-hidden="true"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pc=x=>x==null?'—':Math.round(x*100)+'%';
+/* nav: home leagues → league matches → match tabs (board/parse/zj/odds). */
+const S={day:0,lg:null,mid:null,tab:'board',data:null};
+(function(){const m=location.hash.match(/u=([^&]+)/);if(m){localStorage.setItem('dv_u',decodeURIComponent(m[1]));history.replaceState(null,'',location.pathname)}})();
+async function fetchBlob(){const u=localStorage.getItem('dv_u');const uu=u||'d/666778631308897b9ac29819/snap.bin';const r=await fetch(uu+(uu.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('取数据失败（'+r.status+'）');return new Uint8Array(await r.arrayBuffer())}
+async function open_(b,pass){if(String.fromCharCode(...b.slice(0,4))!=='DB01')throw new Error('数据格式不对');const it=new DataView(b.buffer,b.byteOffset).getUint32(4),salt=b.slice(8,24),iv=b.slice(24,36),ct=b.slice(36);
+ const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:it,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+ let pt;try{pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},k,ct)}catch(e){throw new Error('口令不对')}
+ const s=new Blob([pt]).stream().pipeThrough(new DecompressionStream('gzip'));return JSON.parse(await new Response(s).text())}
+function lock(msg){$('#app').innerHTML=`<div class="lock"><h2>GS Positioning</h2><div class="mut">输入口令（只需一次，保存在本机）</div><input id="pw" type="password" autocomplete="current-password" placeholder="口令"><button id="go" type="button">打开</button><p class="mut" style="color:var(--bad)">${esc(msg||'')}</p></div>`;
+ $('#go').onclick=()=>{localStorage.setItem('dv_p',$('#pw').value.trim());load()}}
+async function load(){const p=localStorage.getItem('dv_p');if(!p)return lock();$('#app').innerHTML='<p class="foot" style="margin-top:30vh">加载中…</p>';
+ try{S.data=await open_(await fetchBlob(),p);S.mid=null;S.tab='board';list()}catch(e){if(e.message==='口令不对'){localStorage.removeItem('dv_p');lock('口令不对，请重输')}else $('#app').innerHTML=`<div class="lock"><h2>暂时打不开</h2><p class="mut">${esc(e.message)}</p><button class="ib" type="button" onclick="load()">重试</button></div>`}}
+const ago=t=>{if(!t)return'—';const d=(Date.now()-new Date(t.replace(' ','T')+(/[Z+]/.test(t.slice(10))?'':'+08:00')))/6e4;return d<60?Math.max(1,Math.round(d))+' 分钟前':d<1440?Math.round(d/60)+' 小时前':Math.round(d/1440)+' 天前'};
+function dayName(i,d){return['今天','明天','后天'][i]+' '+(d||'').slice(5)}
+function gOrder(m){return m.giver==='a'?[2,1,0]:[0,1,2]}
+function lights(){
+  const f=S.data?.fresh||{};
+  const now=Date.now(),bj=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Shanghai'});
+  const ageH=t=>{if(!t)return 1e9;const ms=Date.parse(String(t).replace(' ','T')+(String(t).includes('T')||/[Z+]/.test(String(t).slice(10))?'':'+08:00'));return (now-ms)/36e5};
+  const dayOf=t=>t?String(t).slice(0,10):'';
+  const tone=(age,soft,hard)=>age>=1e9||age>hard?'b':age>soft?'w':'';
+  const fmt=t=>{if(!t)return'—';const day=String(t).slice(0,10)===bj?'':String(t).slice(5,10).replace('-','/')+' ';return day+String(t).slice(11,16)};
+  const sp=f.sporttery_last_calculator_upload,spToday=dayOf(sp)===bj,spTone=spToday?tone(ageH(sp),12,24):'b';
+  const rows=[['出奇',f.chuqi_last_upload,tone(ageH(f.chuqi_last_upload),12,36)],['体彩',sp,spTone],['模型',f.six_last_generated,tone(ageH(f.six_last_generated),6,24)],['阵容',f.lineups_last_fetch,tone(ageH(f.lineups_last_fetch),6,24)]];
+  return`<div class="lights">${rows.map(([k,t,c])=>`<span class="lg ${c}"><i></i><b>${k}</b><em>${fmt(t)}</em></span>`).join('')}</div>`;
+}
+function daySeg(){const D=S.data;return`<div class="seg">${D.days.map((d,i)=>`<button type="button" class="${i==S.day?'on':''}" data-day="${i}">${dayName(i,d.date)} · ${d.n}</button>`).join('')}</div>`}
+function crumbs(){
+  if(!S.lg) return '';
+  return`<div class="crumbs"><button type="button" id="crHome">今日赛程</button><span>›</span><strong style="color:var(--ink)">${esc(S.lg)}</strong>${S.mid?`<span>›</span><span>单场</span>`:''}</div>`;
+}
+function topbar(extra=''){
+  return`<header><div class="top"><h1>GS Positioning</h1><button class="ib" type="button" id="btnReload">刷新</button></div>${lights()}${daySeg()}${crumbs()}${extra}</header>`;
+}
+function bindTop(){
+  const r=$('#btnReload'); if(r) r.onclick=()=>load();
+  document.querySelectorAll('.seg [data-day]').forEach(b=>b.onclick=()=>{S.day=+b.dataset.day;S.lg=null;S.mid=null;S.tab='board';list()});
+  const h=$('#crHome'); if(h) h.onclick=()=>{S.lg=null;S.mid=null;S.tab='board';list()};
+}
+function leaguesOfDay(){
+  const day=S.data.days[S.day]||{m:[]};
+  const map=new Map();
+  for(const m of day.m){if(!map.has(m.lg))map.set(m.lg,[]);map.get(m.lg).push(m)}
+  return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0],'zh'));
+}
+function list(){
+  // Closing the sheet only when leaving match detail via list navigation
+  S.mid=null; S.tab='board';
+  $('#det').classList.remove('on'); $('#det').setAttribute('aria-hidden','true');
+  if(S.lg) return leagueView();
+  return homeView();
+}
+function homeView(){
+  const D=S.data, day=D.days[S.day]||{m:[]}, lgs=leaguesOfDay();
+  $('#app').innerHTML=topbar()+`<main>
+    <div class="blk">今日赛程与预测</div>
+    ${day.m.length?`<div class="mut" style="margin:0 2px 8px">${day.m.length} 场 · 先点联赛，再进单场</div>`:''}
+    ${lgs.length?lgs.map(([lg,ms])=>`<div class="lgc" data-lg="${esc(lg)}"><b>${esc(lg)}</b><span class="n">${ms.length} 场</span><span class="go">›</span></div>`).join(''):`<div class="miss" style="margin-top:30px">这一天还没有比赛数据（Mac 算完会自动更新）</div>`}
+    <div class="foot">Mac 生成于 ${ago(D.at)}${D.fresh?.six_last_generated?' · 模型 '+ago(D.fresh.six_last_generated):''}${D.fresh?.titan_last_fetch?' · 采集 '+ago(D.fresh.titan_last_fetch):''}</div>
+  </main>`;
+  bindTop();
+  document.querySelectorAll('.lgc').forEach(e=>e.onclick=()=>{S.lg=e.dataset.lg;S.mid=null;leagueView()});
+}
+function bar3(p){if(!p||p.some(x=>x==null))return'<div class="bar"></div>';return`<div class="bar"><i style="width:${p[0]*100}%;background:var(--h)"></i><i style="width:${p[1]*100}%;background:#c3c9d6"></i><i style="width:${p[2]*100}%;background:var(--a)"></i></div>`}
+function card(m){const o=gOrder(m),mp=m.model.p,kp=m.market.p;
+ return`<div class="mc" data-id="${m.id}"><div class="meta"><span>${esc(m.no)} · ${esc(m.ko)}</span><span>${esc(m.model.theo||m.market.dir||'')}</span></div>
+ <div class="tm"><span>${esc(m.h)}${m.giver==='h'?'<em class="gv">让</em>':''}</span><span class="vs">VS</span><span class="r">${m.giver==='a'?'<em class="gv">让</em>':''}${esc(m.a)}</span></div>
+ ${mp?`<div class="lab"><span>模型 ${o.map(i=>pc(mp[i])).join(' / ')}</span></div>${bar3(o.map(i=>mp[i]))}`:'<div class="nod">模型：今天这场没有概率</div>'}
+ <div class="lab"><span>市场 ${kp?o.map(i=>pc(kp[i])).join(' / '):'—'}</span><span>${m.info?'':'基本面未采到'}</span></div>${bar3(kp?o.map(i=>kp[i]):null)}</div>`}
+function leagueView(){
+  const day=S.data.days[S.day]||{m:[]};
+  const ms=day.m.filter(x=>x.lg===S.lg).sort((a,b)=>String(a.ko).localeCompare(String(b.ko)));
+  $('#app').innerHTML=topbar()+`<main>
+    <div class="blk">${esc(S.lg)} · ${ms.length} 场</div>
+    ${ms.length?ms.map(card).join(''):'<div class="miss">这个联赛今天没有比赛</div>'}
+  </main>`;
+  bindTop();
+  document.querySelectorAll('.mc').forEach(e=>e.onclick=()=>openMatch(e.dataset.id));
+}
+const sec=(t,sub,body,open)=>`<details ${open?'open':''}><summary>${t}${sub?`<em>${esc(sub)}</em>`:''}</summary><div class="bd">${body}</div></details>`;
+const miss=s=>`<div class="miss">${s}</div>`;
+function pr(n,a,b){return`<div class="row"><span class="n">${n}</span><div class="two"><div class="bar"><i style="width:${(a||0)*100}%;background:var(--pri)"></i></div><div class="bar"><i style="width:${(b||0)*100}%;background:#b8bfcf"></i></div></div><span class="v">${pc(a)}<br><span class="mut">${pc(b)}</span></span></div>`}
+const gl=L=>L?.length?L.map(x=>`<tr><td class="l">${esc((x.d||'').slice(2))}</td><td class="l">${esc(x.h)}</td><td><b>${esc(x.s)}</b></td><td class="l">${esc(x.a)}</td><td><span class="${x.r=='胜'?'W':x.r=='平'?'D':'L'}">${esc(x.r)}</span></td></tr>`).join(''):'';
+function tbl(T,name){return T?.length?`<div class="sub">${esc(name)}</div><div class="tscroll"><table><tr><th class="l"></th><th>赛</th><th>胜</th><th>平</th><th>负</th><th>进</th><th>失</th><th>积分</th><th>名次</th></tr>${T.map(x=>`<tr><td class="l">${esc(x.n)}</td><td>${x.t}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td>${x.gf}</td><td>${x.ga}</td><td>${x.pt}</td><td>${x.rk||'—'}</td></tr>`).join('')}</table></div>`:`<div class="sub">${esc(name)}</div>${miss('没有积分榜（可能是杯赛）')}`}
+function sixRow(m){
+  try{
+    const day=S.data.days[S.day]||{date:''};
+    const six=(S.data.app&&S.data.app.api&&S.data.app.api['/api/six?date='+day.date])||{};
+    const rows=six.rows||[];
+    return rows.find(r=>String(r['球探ID'])===String(m.id) || (r['编号']&&m.no&&String(r['编号'])===String(m.no)));
+  }catch(e){return null}
+}
+function oddsreadOf(m){
+  const r=sixRow(m); if(!r) return null;
+  let F=r['框架']; if(typeof F==='string'){try{F=JSON.parse(F)}catch(e){F=null}}
+  return F&&F.oddsread?F.oddsread:null;
+}
+const appCss=()=>{const h=S.data.app?.html||'';return (h.match(/<style>[\s\S]*?<\/style>/g)||[]).join('')};
+function openMatch(id){
+  S.mid=id; if(!S.lg){const m=(S.data.days[S.day]||{m:[]}).m.find(x=>String(x.id)===String(id)); if(m) S.lg=m.lg}
+  if(!S.tab) S.tab='board';
+  // Paint underlying list once; tab switches must NOT rewrite #app
+  if(S.lg) leagueView(); else homeView();
+  renderMatch();
+}
+function renderMatch(){
+  const m=(S.data.days[S.day]||{m:[]}).m.find(x=>String(x.id)===String(S.mid));
+  if(!m){$('#det').classList.remove('on');$('#det').setAttribute('aria-hidden','true');return}
+  const tabs=[['board','看板'],['parse','解析'],['zj','庄家解读'],['odds','盘口']];
+  const head=`<div class="mhead"><div class="dh"><button class="ib" type="button" id="btnBack">‹ ${esc(S.lg||'返回')}</button></div>
+  <div class="hero"><small>${esc(m.no)} · ${esc(m.lg)} · ${esc(m.ko)}</small><div class="t"><span>${esc(m.h)}</span><small style="margin:0 8px">VS</small><span>${esc(m.a)}</span></div><small>让球方：${esc(m.giver==='a'?m.a:m.h)}</small></div>
+  <div class="mtabs">${tabs.map(([k,n])=>`<button type="button" class="${S.tab===k?'on':''}" data-t="${k}">${n}</button>`).join('')}</div></div>
+  <div class="pane" id="pane"></div>`;
+  $('#det').innerHTML=head; $('#det').classList.add('on'); $('#det').setAttribute('aria-hidden','false');
+  $('#btnBack').onclick=e=>{e.preventDefault();closeMatch()};
+  document.querySelectorAll('.mtabs [data-t]').forEach(b=>{
+    b.onclick=e=>{e.preventDefault();e.stopPropagation();switchTab(b.dataset.t,m)};
+  });
+  fillPane(m);
+}
+function switchTab(k,m){
+  if(!k||!m) return;
+  S.tab=k;
+  document.querySelectorAll('.mtabs [data-t]').forEach(b=>b.classList.toggle('on', b.dataset.t===k));
+  fillPane(m);
+}
+function closeMatch(){S.mid=null;$('#det').classList.remove('on');$('#det').setAttribute('aria-hidden','true');$('#det').innerHTML='';if(S.lg) leagueView(); else homeView()}
+function fillPane(m){
+  const pane=$('#pane'); if(!pane) return;
+  try{
+    if(S.tab==='zj'){
+      const z=tabZj(m);
+      pane.innerHTML=z.html;
+      if(z.doc){
+        const f=$('#zjframe');
+        if(f){ f.srcdoc=z.doc; f.onload=()=>{try{f.style.height=Math.max(480,(f.contentDocument.body.scrollHeight||480)+24)+'px'}catch(e){}}; }
+      }
+      return;
+    }
+    if(S.tab==='board') pane.innerHTML=tabBoard(m);
+    else if(S.tab==='parse') pane.innerHTML=tabParse(m);
+    else pane.innerHTML=tabOdds(m);
+  }catch(err){
+    pane.innerHTML=`<div style="margin:14px" class="miss">这一页渲染出错：${esc(err.message||err)}</div>`;
+  }
+}
+function tabBoard(m){
+  const o=gOrder(m),gn=m.giver==='a'?m.a:m.h,rn=m.giver==='a'?m.h:m.a;
+  const nm=['让球方胜','平','受让方胜'];
+  return sec('模型 vs 市场','蓝=模型 灰=市场',`<div class="sub">胜平负（让球方视角）</div>${m.model.p?'':miss('今天这场没有模型概率')}${o.map((i,k)=>pr(nm[k]+'<br><span class="mut">'+esc(k==1?'':k==0?gn:rn)+'</span>',m.model.p?.[i],m.market.p?.[i])).join('')}
+  <div class="mut">市场来源：${esc(m.market.src||'—')} · 模型状态：${esc(m.model.state||'—')}</div>
+  <div class="sub">让球</div><div class="kv"><b>模型理论</b><span>${esc(m.model.theo||'—')}</span>${m.model.ahm?`<b>模型分布</b><span>赢 ${pc(m.model.ahm.win)} · 赢半 ${pc(m.model.ahm.half_win)} · 走 ${pc(m.model.ahm.push)} · 输半 ${pc(m.model.ahm.half_lose)} · 输 ${pc(m.model.ahm.lose)}</span>`:''}<b>市场走向</b><span>${esc(m.market.dir||'—')}</span></div>
+  ${m.market.ah?`<div class="tscroll"><table style="margin-top:8px"><tr><th class="l">来源</th><th>初</th><th>停售</th><th>形态</th></tr>${Object.entries(m.market.ah).map(([c,v])=>`<tr><td class="l">${esc(c)}</td><td>${v.open??'—'}</td><td>${v.cut??'—'}</td><td>${esc(v.b_cut||'')}</td></tr>`).join('')}</table></div><div class="mut">正数=主让，负数=客让</div>`:miss('还没有让球数据')}`,true);
+}
+function chipBlock(lab,txt){return`<div class="chipb"><span class="chip">${esc(lab)}</span><div class="chipv">${esc(txt)}</div></div>`}
+function longParas(s){
+  const parts=String(s||'').split(/[｜|；;\n]+/).map(x=>x.trim()).filter(Boolean);
+  if(!parts.length) return miss('暂无');
+  return`<div class="txt">${parts.map(p=>`<p>${esc(p)}</p>`).join('')}</div>`;
+}
+const STAT_LAB={total:'场次',avgGetGoal:'场均进球',avgLoseGoal:'场均失球',wasShots:'射正',avgControl:'控球%',avgCorner:'场均角球',winScale:'胜%',drawScale:'平%',loseScale:'负%'};
+function fmtStat(side){
+  if(!side||typeof side!=='object') return '';
+  const rows=Object.entries(STAT_LAB).filter(([k])=>side[k]!=null&&side[k]!=='');
+  if(!rows.length) return '';
+  return rows.map(([k,lab])=>`<b>${lab}</b><span>${esc(side[k])}</span>`).join('');
+}
+function fmtObj(o){
+  if(o==null) return '';
+  if(typeof o!=='object') return esc(o);
+  const rows=Object.entries(o).filter(([,v])=>v!=null&&v!=='');
+  if(!rows.length) return '';
+  return rows.map(([k,v])=>`<b>${esc(k)}</b><span>${esc(typeof v==='object'?JSON.stringify(v):v)}</span>`).join('');
+}
+function tabParse(m){
+  const I=m.info, T=m.txt||{};
+  let h='';
+  const keys=[['档','档'],['位','位'],['布','布'],['向','向'],['对盘','对盘'],['对照结论','对照'],['九类提示','九类']];
+  const chips=keys.filter(([k])=>T[k]).map(([k,lab])=>chipBlock(lab,T[k])).join('');
+  h+=sec('解读摘要','模型文字',chips?`<div class="chips">${chips}</div>`:miss('这场还没有解读文字'),true);
+  if(!I){h+=sec('基本面','',miss('这场的基本面还没采到（Mac 每天 10:30 / 15:30 / 20:30 自动采）'),true);return h}
+  h+=sec('基本面','积分榜',tbl(I.tbl?.h,m.h)+tbl(I.tbl?.a,m.a)+(I.pre?.length?`<div class="sub">赛前简析</div>${I.pre.map(x=>`<p class="mut" style="font-size:13px;color:var(--ink);line-height:1.5">${esc(x)}</p>`).join('')}`:''),true);
+  h+=sec('近期战绩',`${esc(m.h)} / ${esc(m.a)}`,`<div class="sub">${esc(m.h)}</div><div class="tscroll"><table><tr><th class="l">日</th><th class="l">主</th><th>比</th><th class="l">客</th><th></th></tr>${gl(I.form?.h)}</table></div><div class="sub">${esc(m.a)}</div><div class="tscroll"><table><tr><th class="l">日</th><th class="l">主</th><th>比</th><th class="l">客</th><th></th></tr>${gl(I.form?.a)}</table></div>`,false);
+  h+=sec('交锋','',I.h2h?.length?`<div class="tscroll"><table><tr><th class="l">日</th><th class="l">主</th><th>比</th><th class="l">客</th><th></th></tr>${gl(I.h2h)}</table></div>`:miss('没有交锋数据'),false);
+  h+=sec('伤停','',(I.inj&&(I.inj.h?.length||I.inj.a?.length))?`<div class="kv"><b>${esc(m.h)}</b><span>${(I.inj.h||[]).map(esc).join('；')||'—'}</span><b>${esc(m.a)}</b><span>${(I.inj.a||[]).map(esc).join('；')||'—'}</span></div>`:miss('没有伤停数据'),false);
+  if(I.stat){
+    const hs=fmtStat(I.stat.h), as=fmtStat(I.stat.a), xg=fmtObj(I.stat.xg);
+    if(hs||as||xg){
+      h+=sec('统计 / xG','',`<div class="kv">${hs?`<b>${esc(m.h)}</b><span></span>${hs}`:''}${as?`<b>${esc(m.a)}</b><span></span>${as}`:''}${xg?`<b>xG</b><span></span>${xg}`:''}</div>`,false);
+    }
+  }
+  return h;
+}
+function tabZj(m){
+  const o=oddsreadOf(m);
+  if(!o||!o.card) return {html:`<div style="margin:14px">${miss('本场没有庄家解读（出奇未到或框架未写）')}</div>`};
+  const line=(o.intent&&o.intent.explain)||o.headline||'';
+  // Keep original 庄家解读 card HTML + app CSS (not a redesigned summary)
+  const doc=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${appCss()}<style>body{margin:0;padding:4px 2px 20px;background:transparent}</style></head><body>
+  <div class="zjt" style="font-size:12px;opacity:.8;margin:0 4px 8px">${esc(line)}</div>
+  ${o.card}
+  </body></html>`;
+  return {html:`<div class="zjwrap"><iframe id="zjframe" title="庄家解读" sandbox="allow-same-origin"></iframe></div>`, doc};
+}
+function tabOdds(m){
+  const T=m.txt||{}, L2=m.l2, L3=m.l3;
+  let h='';
+  h+=sec('亚盘变化','初盘 → 停售',m.market.ah?`<div class="tscroll"><table><tr><th class="l">来源</th><th>初</th><th>停售</th><th>形态</th></tr>${Object.entries(m.market.ah).map(([c,v])=>`<tr><td class="l">${esc(c)}</td><td>${v.open??'—'}</td><td>${v.cut??'—'}</td><td>${esc(v.b_cut||v.b_open||'')}</td></tr>`).join('')}</table></div><div class="mut">正数=主让，负数=客让 · 市场走向：${esc(m.market.dir||'—')}</div>`:miss('还没有亚盘数据'),true);
+  if(L2) h+=sec('理论盘 / 九类', '', `<div class="kv"><b>让球方</b><span>${esc(L2.giver||'—')}</span><b>理论</b><span>${esc(L2.theo_txt||m.model.theo||'—')}</span><b>初/停</b><span>${esc(L2.open??'—')} → ${esc(L2.cut??'—')}</span><b>九类</b><span>${esc(L2.nine||T['九类提示']||'—')}</span><b>桶</b><span>${esc(L2.bucket||'—')}</span></div>`,true);
+  if(T['欧赔对照']) h+=sec('欧赔对照','',longParas(T['欧赔对照']),true);
+  if(L3){
+    const std=fmtObj(L3.std), pay=fmtObj(L3.pay);
+    h+=sec('欧赔落点','L3',`<div class="kv"><b>体系</b><span>${esc(L3.sys||'—')}</span>${std?`<b>标准</b><span></span>${std}`:''}${pay?`<b>均赔</b><span></span>${pay}`:''}</div>`,false);
+  }
+  if(T['对照结论']) h+=sec('对照结论','',longParas(T['对照结论']),false);
+  return h||`<div style="margin:14px">${miss('盘口数据还没齐')}</div>`;
+}
+load();
+</script></body></html>
